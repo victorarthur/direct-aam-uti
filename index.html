@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Direct Articulatory-to-Acoustic Mapping from Ultrasound Tongue Imaging &mdash; supplementary material</title>
+  <link rel="canonical" href="https://victorarthur.github.io/direct-aam-uti/">
+  <style>
+    :root {
+      --fg: #1f2328;
+      --muted: #57606a;
+      --bg: #ffffff;
+      --panel: #f6f8fa;
+      --accent: #0969da;
+      --border: #d0d7de;
+      --pred: #fb8500;
+      --pred-bg: #fff5eb;
+      --pred-fg: #cc5e00;
+      --orig: #2a9d8f;
+      --orig-bg: #ecfaf6;
+      --orig-fg: #1f7a6a;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 1rem;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      color: var(--fg);
+      background: var(--bg);
+      line-height: 1.55;
+    }
+
+    header,
+    main,
+    footer {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.5rem 1.25rem;
+    }
+
+    header {
+      border-bottom: 1px solid var(--border);
+    }
+
+    h1 {
+      font-size: 1.7rem;
+      margin: 0 0 0.25rem;
+      line-height: 1.25;
+    }
+
+    h2 {
+      font-size: 1.25rem;
+      margin: 2rem 0 0.75rem;
+    }
+
+    h3 {
+      font-size: 1.05rem;
+      margin: 1.5rem 0 0.25rem;
+    }
+
+    .meta-inline {
+      color: var(--muted);
+      font-weight: normal;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .lede {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.85rem 1rem;
+      margin: 1.25rem 0;
+      font-size: 0.97rem;
+    }
+
+    .lede strong {
+      color: var(--accent);
+    }
+
+    .toc {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.7rem 1rem;
+      margin: 1rem 0 1.5rem;
+      font-size: 0.97rem;
+      line-height: 1.9;
+    }
+
+    .toc strong {
+      color: var(--muted);
+      margin-right: 0.5rem;
+    }
+
+    .system-figure {
+      margin: 0.75rem 0 1.25rem;
+      padding: 0.5rem;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      text-align: center;
+    }
+
+    .system-figure img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 4px;
+    }
+
+    .system-figure figcaption {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-top: 0.5rem;
+      padding: 0 0.5rem;
+      text-align: left;
+    }
+
+    .legend {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin: 0.5rem 0 1rem;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.15em 0.55em;
+      border-radius: 4px;
+      font-weight: 700;
+      font-size: 0.85em;
+      letter-spacing: 0.02em;
+    }
+
+    .badge-pred {
+      color: var(--pred-fg);
+      background: var(--pred-bg);
+      border: 1px solid var(--pred);
+    }
+
+    .badge-orig {
+      color: var(--orig-fg);
+      background: var(--orig-bg);
+      border: 1px solid var(--orig);
+    }
+
+    .legend .badge {
+      font-size: 0.95em;
+      padding: 0.25em 0.7em;
+    }
+
+    .word-group {
+      border-top: 2px solid var(--border);
+      padding-top: 0.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .word-group h2 {
+      margin-top: 0.25rem;
+      color: var(--accent);
+    }
+
+    .example {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1rem 1.1rem;
+      margin: 0.75rem 0 1.25rem;
+      background: #fff;
+    }
+
+    .pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 0.4rem;
+    }
+
+    .cell {
+      border-radius: 6px;
+      padding: 0.7rem 0.8rem;
+      border: 2px solid var(--border);
+    }
+
+    .cell.predicted {
+      background: var(--pred-bg);
+      border-color: var(--pred);
+    }
+
+    .cell.original {
+      background: var(--orig-bg);
+      border-color: var(--orig);
+    }
+
+    .cell-title {
+      font-weight: 600;
+      font-size: 0.85rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .cell.predicted .cell-title {
+      color: var(--pred-fg);
+    }
+
+    .cell.original .cell-title {
+      color: var(--orig-fg);
+    }
+
+    .cell audio {
+      width: 100%;
+      display: block;
+      margin-bottom: 0.6rem;
+    }
+
+    .cell img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+    }
+
+    .cell a {
+      display: block;
+    }
+
+    .back-to-top {
+      font-size: 0.9rem;
+      text-align: right;
+      margin: 0.25rem 0 0;
+    }
+
+    .back-to-top a {
+      color: var(--muted);
+    }
+
+    @media (max-width: 720px) {
+      .pair {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .bibtex {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.85rem 1rem;
+      font-family: ui-monospace, "SF Mono", Menlo, Monaco, Consolas, monospace;
+      font-size: 0.9rem;
+      white-space: pre-wrap;
+      overflow-x: auto;
+    }
+
+    a {
+      color: var(--accent);
+    }
+
+    footer {
+      color: var(--muted);
+      font-size: 0.9rem;
+      border-top: 1px solid var(--border);
+      margin-top: 2rem;
+    }
+
+    .tagline {
+      font-style: italic;
+      color: var(--muted);
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Direct Articulatory-to-Acoustic Mapping from Ultrasound Tongue Imaging</h1>
+    <p class="subtitle">Supplementary material &mdash; Frigyes Viktor Arthur and D&aacute;vid Sztah&oacute;</p>
+    <p class="tagline">Manuscript submitted to IEEE/ACM Transactions on Audio, Speech, and Language Processing.</p>
+  </header>
+
+  <main>
+    <div class="lede">
+      <strong>Listen below.</strong> Speech is synthesised from a midsagittal ultrasound video of the tongue.
+    </div>
+
+    <h2>How the system works</h2>
+    <p>A short window of ~40 raw ultrasound frames (~500 ms) is processed by a convolutional encoder,
+      aggregated, and decoded into an 80-channel mel-spectrogram frame; a pre-trained WaveGlow vocoder
+      then converts the predicted mel-spectrogram into an audible waveform. The same vocoder is applied
+      to the natural-speech reference, so listening tests compare two conditions that differ only in the
+      AAM stage (matched-vocoder protocol).</p>
+
+    <figure class="system-figure">
+      <img src="figures/pipeline.png"
+        alt="System architecture: ultrasound tongue images go through a CNN encoder, an aggregator, and a mel decoder; WaveGlow then renders the predicted mel-spectrogram to audio.">
+      <figcaption><strong>System architecture.</strong> A temporal window of ~40 UTI frames is processed by a 4-layer
+        CNN encoder, aggregated via flatten + linear projection, and decoded to an 80-dimensional mel-spectrogram frame.
+        WaveGlow converts the predicted spectrogram to a 22 kHz audio waveform. The reference path (bottom) extracts
+        mel-spectrograms from recorded audio for evaluation.</figcaption>
+    </figure>
+
+    <figure class="system-figure">
+      <img src="figures/data_results.png"
+        alt="Two example utterances: rain (sub-07 ses-01) on the left, sky (sub-03 ses-01) on the right. Each shows four UTI frames (top), the original mel-spectrogram (middle), and the predicted mel-spectrogram (bottom).">
+      <figcaption><strong>Example utterances.</strong> Two test items are shown side by side: <em>rain</em> (sub-07,
+        session 1, MCD = 4.1 dB) on the left and <em>sky</em> (sub-03, session 1, MCD = 3.5 dB) on the right. The top
+        rows are four UTI frames sampled at different time points within the utterance; below are the original and
+        predicted mel-spectrograms.</figcaption>
+    </figure>
+
+    <h2>Abstract</h2>
+    <p>Articulatory-to-acoustic mapping (AAM) — reconstructing speech from articulator
+      measurements — is a core building block for silent speech interfaces (SSIs).
+      Most ultrasound tongue imaging (UTI)-based AAM systems predict classical
+      vocoder parameters (MGC, LSP, F0) that require brittle voicing/pitch decisions
+      and bypass modern neural waveform generators. We propose a temporal
+      convolutional network that maps short windows of UTI frames directly to
+      80-channel mel-spectrograms, inverted to a waveform by a pre-trained WaveGlow
+      vocoder. The system is trained and evaluated on a custom multimodal corpus of
+      four speakers across three sessions each (1,200 utterances of isolated English
+      words; Hungarian L1 / English L2). The same vocoder is applied to natural and
+      predicted mel-spectrograms, so vocoder artifacts are shared across conditions
+      and the evaluation isolates the AAM stage. With this matched-vocoder protocol
+      the system reaches a mean Mel-Cepstral Distortion of 4.46 dB, with no
+      significant inter-speaker differences (<i>p</i> = 0.838). A blinded
+      8-alternative forced-choice listening test with 31 listeners (1,240 trials,
+      IEEE Std 1329 conformant) reaches 84.0% word recognition accuracy for
+      synthesized speech against 99.7% for natural recordings (Cohen&rsquo;s
+      <i>h</i> = 0.71), a Word Error Rate of 16.0%, macro-AUC of 0.895, and
+      substantial inter-rater agreement (Fleiss&rsquo; &kappa; = 0.75). Recognition
+      errors are phonetically structured and concentrate on minimal pairs such as
+      <i>door</i>&ndash;<i>four</i>, consistent with the limited visibility of the
+      tongue tip and lips in midsagittal UTI. The matched-vocoder protocol and the
+      listener-response data are released, providing a reproducible reference point
+      for UTI-based AAM and a foundation for cross-speaker pooling, continuous-speech
+      extension, and target-population studies.
+    </p>
+
+    <h2 id="examples">Few audio examples</h2>
+
+    <p class="legend">
+      <span class="badge badge-pred">PREDICTED &mdash; synthesized from ultrasound</span>
+      <span class="badge badge-orig">ORIGINAL &mdash; natural recording</span>
+    </p>
+
+    <section class="word-group" id="bring">
+      <h2><i>bring</i></h2>
+      <article class="example">
+        <h3>sub-06 / ses-01<span class="meta-inline"></span></h3>
+        <div class="pair">
+          <div class="cell predicted">
+            <div class="cell-title"><span class="badge badge-pred">PREDICTED</span> synthesized from ultrasound</div>
+            <audio controls preload="none" src="examples/top12_sub-06_ses-01_bring_predicted.wav"></audio>
+            <a href="examples/top12_sub-06_ses-01_bring_predicted_mel.png"><img src="examples/top12_sub-06_ses-01_bring_predicted_mel.png" alt="Predicted mel: bring sub-06 ses-01"></a>
+          </div>
+          <div class="cell original">
+            <div class="cell-title"><span class="badge badge-orig">ORIGINAL</span> natural recording</div>
+            <audio controls preload="none" src="examples/top12_sub-06_ses-01_bring_original.wav"></audio>
+            <a href="examples/top12_sub-06_ses-01_bring_original_mel.png"><img src="examples/top12_sub-06_ses-01_bring_original_mel.png" alt="Original mel: bring sub-06 ses-01"></a>
+          </div>
+        </div>
+      </article>
+      <p class="back-to-top"><a href="#examples">Back to word index</a></p>
+    </section>
+    <section class="word-group" id="dance">
+      <h2><i>dance</i></h2>
+      <article class="example">
+        <h3>sub-02 / ses-01<span class="meta-inline"></span></h3>
+        <div class="pair">
+          <div class="cell predicted">
+            <div class="cell-title"><span class="badge badge-pred">PREDICTED</span> synthesized from ultrasound</div>
+            <audio controls preload="none" src="examples/top07_sub-02_ses-01_dance_predicted.wav"></audio>
+            <a href="examples/top07_sub-02_ses-01_dance_predicted_mel.png"><img src="examples/top07_sub-02_ses-01_dance_predicted_mel.png" alt="Predicted mel: dance sub-02 ses-01"></a>
+          </div>
+          <div class="cell original">
+            <div class="cell-title"><span class="badge badge-orig">ORIGINAL</span> natural recording</div>
+            <audio controls preload="none" src="examples/top07_sub-02_ses-01_dance_original.wav"></audio>
+            <a href="examples/top07_sub-02_ses-01_dance_original_mel.png"><img src="examples/top07_sub-02_ses-01_dance_original_mel.png" alt="Original mel: dance sub-02 ses-01"></a>
+          </div>
+        </div>
+      </article>
+      <p class="back-to-top"><a href="#examples">Back to word index</a></p>
+    </section>
+    <section class="word-group" id="four">
+      <h2><i>four</i></h2>
+      <article class="example">
+        <h3>sub-03 / ses-01<span class="meta-inline"></span></h3>
+        <div class="pair">
+          <div class="cell predicted">
+            <div class="cell-title"><span class="badge badge-pred">PREDICTED</span> synthesized from ultrasound</div>
+            <audio controls preload="none" src="examples/top14_sub-03_ses-01_four_predicted.wav"></audio>
+            <a href="examples/top14_sub-03_ses-01_four_predicted_mel.png"><img src="examples/top14_sub-03_ses-01_four_predicted_mel.png" alt="Predicted mel: four sub-03 ses-01"></a>
+          </div>
+          <div class="cell original">
+            <div class="cell-title"><span class="badge badge-orig">ORIGINAL</span> natural recording</div>
+            <audio controls preload="none" src="examples/top14_sub-03_ses-01_four_original.wav"></audio>
+            <a href="examples/top14_sub-03_ses-01_four_original_mel.png"><img src="examples/top14_sub-03_ses-01_four_original_mel.png" alt="Original mel: four sub-03 ses-01"></a>
+          </div>
+        </div>
+      </article>
+      <p class="back-to-top"><a href="#examples">Back to word index</a></p>
+    </section>
+    <section class="word-group" id="laugh">
+      <h2><i>laugh</i></h2>
+      <article class="example">
+        <h3>sub-06 / ses-02<span class="meta-inline"></span></h3>
+        <div class="pair">
+          <div class="cell predicted">
+            <div class="cell-title"><span class="badge badge-pred">PREDICTED</span> synthesized from ultrasound</div>
+            <audio controls preload="none" src="examples/top04_sub-06_ses-02_laugh_predicted.wav"></audio>
+            <a href="examples/top04_sub-06_ses-02_laugh_predicted_mel.png"><img
+                src="examples/top04_sub-06_ses-02_laugh_predicted_mel.png" alt="Predicted mel: laugh sub-06 ses-02"></a>
+          </div>
+          <div class="cell original">
+            <div class="cell-title"><span class="badge badge-orig">ORIGINAL</span> natural recording</div>
+            <audio controls preload="none" src="examples/top04_sub-06_ses-02_laugh_original.wav"></audio>
+            <a href="examples/top04_sub-06_ses-02_laugh_original_mel.png"><img
+                src="examples/top04_sub-06_ses-02_laugh_original_mel.png" alt="Original mel: laugh sub-06 ses-02"></a>
+          </div>
+        </div>
+      </article>
+      <p class="back-to-top"><a href="#examples">Back to word index</a></p>
+    </section>
+
+    <section class="word-group" id="rain">
+      <h2><i>rain</i></h2>
+      <article class="example">
+        <h3>sub-03 / ses-01<span class="meta-inline"></span></h3>
+        <div class="pair">
+          <div class="cell predicted">
+            <div class="cell-title"><span class="badge badge-pred">PREDICTED</span> synthesized from ultrasound</div>
+            <audio controls preload="none" src="examples/top09_sub-03_ses-01_rain_predicted.wav"></audio>
+            <a href="examples/top09_sub-03_ses-01_rain_predicted_mel.png"><img src="examples/top09_sub-03_ses-01_rain_predicted_mel.png" alt="Predicted mel: rain sub-03 ses-01"></a>
+          </div>
+          <div class="cell original">
+            <div class="cell-title"><span class="badge badge-orig">ORIGINAL</span> natural recording</div>
+            <audio controls preload="none" src="examples/top09_sub-03_ses-01_rain_original.wav"></audio>
+            <a href="examples/top09_sub-03_ses-01_rain_original_mel.png"><img src="examples/top09_sub-03_ses-01_rain_original_mel.png" alt="Original mel: rain sub-03 ses-01"></a>
+          </div>
+        </div>
+      </article>
+      <p class="back-to-top"><a href="#examples">Back to word index</a></p>
+    </section>
+    <section class="word-group" id="sad">
+      <h2><i>sad</i> &mdash; 3 examples</h2>
+      <article class="example">
+        <h3>sub-03 / ses-01<span class="meta-inline"></span></h3>
+        <div class="pair">
+          <div class="cell predicted">
+            <div class="cell-title"><span class="badge badge-pred">PREDICTED</span> synthesized from ultrasound</div>
+            <audio controls preload="none" src="examples/top01_sub-03_ses-01_sad_predicted.wav"></audio>
+            <a href="examples/top01_sub-03_ses-01_sad_predicted_mel.png"><img
+                src="examples/top01_sub-03_ses-01_sad_predicted_mel.png" alt="Predicted mel: sad sub-03 ses-01"></a>
+          </div>
+          <div class="cell original">
+            <div class="cell-title"><span class="badge badge-orig">ORIGINAL</span> natural recording</div>
+            <audio controls preload="none" src="examples/top01_sub-03_ses-01_sad_original.wav"></audio>
+            <a href="examples/top01_sub-03_ses-01_sad_original_mel.png"><img
+                src="examples/top01_sub-03_ses-01_sad_original_mel.png" alt="Original mel: sad sub-03 ses-01"></a>
+          </div>
+        </div>
+      </article>
+      <article class="example">
+        <h3>sub-06 / ses-02<span class="meta-inline"></span></h3>
+        <div class="pair">
+          <div class="cell predicted">
+            <div class="cell-title"><span class="badge badge-pred">PREDICTED</span> synthesized from ultrasound</div>
+            <audio controls preload="none" src="examples/top02_sub-06_ses-02_sad_predicted.wav"></audio>
+            <a href="examples/top02_sub-06_ses-02_sad_predicted_mel.png"><img
+                src="examples/top02_sub-06_ses-02_sad_predicted_mel.png" alt="Predicted mel: sad sub-06 ses-02"></a>
+          </div>
+          <div class="cell original">
+            <div class="cell-title"><span class="badge badge-orig">ORIGINAL</span> natural recording</div>
+            <audio controls preload="none" src="examples/top02_sub-06_ses-02_sad_original.wav"></audio>
+            <a href="examples/top02_sub-06_ses-02_sad_original_mel.png"><img
+                src="examples/top02_sub-06_ses-02_sad_original_mel.png" alt="Original mel: sad sub-06 ses-02"></a>
+          </div>
+        </div>
+      </article>
+      <article class="example">
+        <h3>sub-06 / ses-01<span class="meta-inline"></span></h3>
+        <div class="pair">
+          <div class="cell predicted">
+            <div class="cell-title"><span class="badge badge-pred">PREDICTED</span> synthesized from ultrasound</div>
+            <audio controls preload="none" src="examples/top03_sub-06_ses-01_sad_predicted.wav"></audio>
+            <a href="examples/top03_sub-06_ses-01_sad_predicted_mel.png"><img
+                src="examples/top03_sub-06_ses-01_sad_predicted_mel.png" alt="Predicted mel: sad sub-06 ses-01"></a>
+          </div>
+          <div class="cell original">
+            <div class="cell-title"><span class="badge badge-orig">ORIGINAL</span> natural recording</div>
+            <audio controls preload="none" src="examples/top03_sub-06_ses-01_sad_original.wav"></audio>
+            <a href="examples/top03_sub-06_ses-01_sad_original_mel.png"><img
+                src="examples/top03_sub-06_ses-01_sad_original_mel.png" alt="Original mel: sad sub-06 ses-01"></a>
+          </div>
+        </div>
+      </article>
+      <p class="back-to-top"><a href="#examples">Back to word index</a></p>
+    </section>
+
+    <section class="word-group" id="sky">
+      <h2><i>sky</i></h2>
+      <article class="example">
+        <h3>sub-02 / ses-01<span class="meta-inline"></span></h3>
+        <div class="pair">
+          <div class="cell predicted">
+            <div class="cell-title"><span class="badge badge-pred">PREDICTED</span> synthesized from ultrasound</div>
+            <audio controls preload="none" src="examples/top05_sub-02_ses-01_sky_predicted.wav"></audio>
+            <a href="examples/top05_sub-02_ses-01_sky_predicted_mel.png"><img
+                src="examples/top05_sub-02_ses-01_sky_predicted_mel.png" alt="Predicted mel: sky sub-02 ses-01"></a>
+          </div>
+          <div class="cell original">
+            <div class="cell-title"><span class="badge badge-orig">ORIGINAL</span> natural recording</div>
+            <audio controls preload="none" src="examples/top05_sub-02_ses-01_sky_original.wav"></audio>
+            <a href="examples/top05_sub-02_ses-01_sky_original_mel.png"><img
+                src="examples/top05_sub-02_ses-01_sky_original_mel.png" alt="Original mel: sky sub-02 ses-01"></a>
+          </div>
+        </div>
+      </article>
+      <p class="back-to-top"><a href="#examples">Back to word index</a></p>
+    </section>
+
+    <h2>How to cite</h2>
+    <p>Until the article is published, please cite this repository directly via the
+      GitHub &ldquo;Cite this repository&rdquo; button (powered by the
+      <a href="https://github.com/victorarthur/direct-aam-uti/blob/main/CITATION.cff"><code>CITATION.cff</code></a>
+      file)
+      or use the placeholder BibTeX entry below:
+    </p>
+
+    <pre class="bibtex">@unpublished{arthur2026directaam,
+ author = {Arthur, Frigyes Viktor and Sztah{\&#39;{o}}, D{\&#39;{a}}vid},
+ title = {Direct Articulatory-to-Acoustic Mapping from Ultrasound Tongue Imaging},
+ year = {2026},
+ note = {Manuscript submitted to IEEE/ACM Transactions on Audio, Speech, and Language Processing.}
+}</pre>
+
+    <h2>License</h2>
+    <p>Unless otherwise stated, the contents of this site and the linked repository are released under
+      <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International (CC BY
+        4.0)</a>.
+    </p>
+  </main>
+
+  <footer>
+    &copy; 2026 Frigyes Viktor Arthur and D&aacute;vid Sztah&oacute;,
+    Department of Telecommunications and Artificial Intelligence,
+    Budapest University of Technology and Economics.
+    <br>
+    Contact: <a href="mailto:arthur@tmit.bme.hu">arthur@tmit.bme.hu</a>
+  </footer>
+</body>
+
+</html>

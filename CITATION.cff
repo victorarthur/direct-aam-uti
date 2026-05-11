@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+title: "Direct Articulatory-to-Acoustic Mapping from Ultrasound Tongue Imaging — Supplementary Material"
+message: "If you use this material, please cite it as below."
+type: dataset
+authors:
+  - family-names: Arthur
+    given-names: Frigyes Viktor
+    affiliation: "Department of Telecommunications and Artificial Intelligence, Budapest University of Technology and Economics, Budapest, Hungary"
+    email: arthur@tmit.bme.hu
+  - family-names: Sztahó
+    given-names: Dávid
+    affiliation: "Department of Telecommunications and Artificial Intelligence, Budapest University of Technology and Economics, Budapest, Hungary"
+license: CC-BY-4.0
+repository-code: "https://github.com/victorarthur/direct-aam-uti"
+preferred-citation:
+  type: unpublished
+  title: "Direct Articulatory-to-Acoustic Mapping from Ultrasound Tongue Imaging"
+  authors:
+    - family-names: Arthur
+      given-names: Frigyes Viktor
+    - family-names: Sztahó
+      given-names: Dávid
+  year: 2026
+  notes: "Manuscript submitted to IEEE/ACM Transactions on Audio, Speech, and Language Processing."
