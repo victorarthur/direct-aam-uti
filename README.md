@@ -6,7 +6,7 @@ Supplementary material for the manuscript
 > Frigyes Viktor Arthur and Dávid Sztahó
 > Department of Telecommunications and Artificial Intelligence,
 > Budapest University of Technology and Economics, Budapest, Hungary
-> *Submitted to IEEE/ACM Transactions on Audio, Speech, and Language Processing.*
+> *Manuscript under peer review.*
 
 ---
 
@@ -46,7 +46,7 @@ original and predicted mel-spectrograms.
 
 ## Abstract
 
-Articulatory-to-acoustic mapping (AAM) — reconstructing speech from articulator measurements — is a core building block for silent speech interfaces (SSIs). Most ultrasound tongue imaging (UTI)-based AAM systems predict classical vocoder parameters (MGC, LSP, F0) that require brittle voicing/pitch decisions and bypass modern neural waveform generators. We propose a temporal convolutional network that maps short windows of UTI frames directly to 80-channel mel-spectrograms, inverted to a waveform by a pre-trained WaveGlow vocoder. The system is trained and evaluated on a custom multimodal corpus of four speakers across three sessions each (1,200 utterances of isolated English words; Hungarian L1 / English L2). The same vocoder is applied to natural and predicted mel-spectrograms, so vocoder artifacts are shared across conditions and the evaluation isolates the AAM stage. With this matched-vocoder protocol the system reaches a mean Mel-Cepstral Distortion of 4.46 dB, with no significant inter-speaker differences (*p* = 0.838). A blinded 8-alternative forced-choice listening test with 31 listeners (1,240 trials, IEEE Std 1329 conformant) reaches 84.0% word recognition accuracy for synthesized speech against 99.7% for natural recordings (Cohen's *h* = 0.71), a Word Error Rate of 16.0%, macro-AUC of 0.895, and substantial inter-rater agreement (Fleiss' κ = 0.75). Recognition errors are phonetically structured and concentrate on minimal pairs such as *door*–*four*, consistent with the limited visibility of the tongue tip and lips in midsagittal UTI. The matched-vocoder protocol and the listener-response data are released, providing a reproducible reference point for UTI-based AAM and a foundation for cross-speaker pooling, continuous-speech extension, and target-population studies.
+Articulatory-to-acoustic mapping (AAM) — reconstructing speech from articulator measurements — is a core building block for silent speech interfaces. Most ultrasound tongue imaging (UTI)-based AAM systems predict classical vocoder parameters (MGC, LSP, F0) that require brittle voicing/pitch decisions and bypass modern neural waveform generators. We propose a temporal convolutional network that maps short windows of UTI frames directly to 80-channel mel-spectrograms; predicted and natural-reference spectrograms are inverted by the same fixed pre-trained neural vocoder, so artefacts are shared across conditions and the listening test isolates the AAM stage. This matched-vocoder protocol — not the vocoder itself — is the methodological contribution; the vocoder is a fixed component, not the locus of novelty. Training and evaluation use a four-speaker, three-session corpus (1,200 isolated English words; Hungarian L1 / English L2). Under the matched-vocoder protocol the system reaches a mean Mel-Cepstral Distortion of 4.46 dB, with no significant inter-speaker differences (*p* = 0.838). A blinded listening test with 31 listeners (1,240 trials, IEEE Std 1329 conformant) reaches 84.0% word recognition accuracy for synthesised speech against 99.7% for natural recordings (Cohen's *h* = 0.71), Word Error Rate 16.0%, macro-AUC 0.895, and substantial inter-rater agreement (Fleiss' κ = 0.75). Errors are phonetically structured and concentrate on minimal pairs such as *door*–*four*, consistent with the limited visibility of the tongue tip and lips in midsagittal UTI. The matched-vocoder protocol and listener-response data are released as a reproducible reference point for UTI-based AAM.
 
 ---
 
@@ -194,7 +194,7 @@ the root) or use the placeholder BibTeX entry below:
  author = {Arthur, Frigyes Viktor and Sztah{\'{o}}, D{\'{a}}vid},
  title = {Direct Articulatory-to-Acoustic Mapping from Ultrasound Tongue Imaging},
  year = {2026},
- note = {Manuscript submitted to IEEE/ACM Transactions on Audio, Speech, and Language Processing.}
+ note = {Manuscript under peer review.}
 }
 ```
 
