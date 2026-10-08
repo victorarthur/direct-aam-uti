@@ -1,8 +1,8 @@
-# Direct Articulatory-to-Acoustic Mapping from Ultrasound Tongue Imaging
+# From ultrasound tongue image sequences to intelligible speech reconstruction in a closed-set evaluation
 
 Supplementary material for the manuscript
 
-> **Direct Articulatory-to-Acoustic Mapping from Ultrasound Tongue Imaging**
+> **From ultrasound tongue image sequences to intelligible speech reconstruction in a closed-set evaluation**
 > Frigyes Viktor Arthur and Dávid Sztahó
 > Department of Telecommunications and Artificial Intelligence,
 > Budapest University of Technology and Economics, Budapest, Hungary
@@ -27,12 +27,12 @@ controls.)
 ## How the system works
 
 Speech is **synthesised from a midsagittal ultrasound video of the tongue**.
-A short window of ~40 raw ultrasound frames (~500 ms) is processed by a
-convolutional encoder, aggregated, and decoded into an 80-channel
+A short window of 40 raw ultrasound frames (500 ms; 20 past and 19 future) is processed by a
+convolutional encoder, concatenated and projected by one linear layer, and decoded into an 80-channel
 mel-spectrogram frame; a pre-trained WaveGlow vocoder then converts the
 predicted mel-spectrogram into an audible waveform. The same vocoder is
 applied to the natural-speech reference, so listening tests compare two
-conditions that differ only in the AAM stage (matched-vocoder protocol).
+conditions that differ only in the mapping stage (matched-vocoder protocol). In the article the objective evaluation is repeated with a second fixed vocoder, HiFi-GAN, as a robustness check; the examples below are the WaveGlow renderings used in the listening test.
 
 ![System architecture: ultrasound tongue images go through a CNN encoder, an aggregator, and a mel decoder; WaveGlow then renders the predicted mel-spectrogram to audio.](figures/pipeline.png)
 
@@ -46,16 +46,18 @@ original and predicted mel-spectrograms.
 
 ## Abstract
 
-Articulatory-to-acoustic mapping (AAM) — reconstructing speech from articulator measurements — is a core building block for silent speech interfaces. Most ultrasound tongue imaging (UTI)-based AAM systems predict classical vocoder parameters (MGC, LSP, F0) that require brittle voicing/pitch decisions and bypass modern neural waveform generators. We propose a temporal convolutional network that maps short windows of UTI frames directly to 80-channel mel-spectrograms; predicted and natural-reference spectrograms are inverted by the same fixed pre-trained neural vocoder, so artefacts are shared across conditions and the listening test isolates the AAM stage. This matched-vocoder protocol — not the vocoder itself — is the methodological contribution; the vocoder is a fixed component, not the locus of novelty. Training and evaluation use a four-speaker, three-session corpus (1,200 isolated English words; Hungarian L1 / English L2). Under the matched-vocoder protocol the system reaches a mean Mel-Cepstral Distortion of 4.46 dB, with no significant inter-speaker differences (*p* = 0.838). A blinded listening test with 31 listeners (1,240 trials, IEEE Std 1329 conformant) reaches 84.0% word recognition accuracy for synthesised speech against 99.7% for natural recordings (Cohen's *h* = 0.71), Word Error Rate 16.0%, macro-AUC 0.895, and substantial inter-rater agreement (Fleiss' κ = 0.75). Errors are phonetically structured and concentrate on minimal pairs such as *door*–*four*, consistent with the limited visibility of the tongue tip and lips in midsagittal UTI. The matched-vocoder protocol and listener-response data are released as a reproducible reference point for UTI-based AAM.
+Silent speech interfaces must reconstruct speech from articulatory measurements alone. We show that isolated words reconstructed from sequences of midsagittal ultrasound tongue images (UTI) are intelligible in a closed-set test, and that the reconstruction runs faster than real time. A convolutional network maps a 500-ms window of UTI frames, 20 past and 19 future, directly to the 80-band mel-spectrogram frame at its centre, and a fixed, pre-trained neural vocoder generates the waveform. Its architecture was selected in a 313-trial search, and a controlled retraining showed that the frame sequence matters: a single repeated frame in the same network raised the mapping-stage mel-cepstral distortion from 4.03 to 5.16 dB in all twelve speaker–session models. Models were trained per speaker and session on 1,200 English words from four Hungarian native speakers. In a blinded eight-alternative forced-choice test, 31 listeners identified the reconstructed words in 84.0% of 620 trials (chance 12.5%), against 99.7% for the same vocoder driven by the natural mel-spectrogram; inter-rater agreement was substantial (Fleiss’ κ = 0.75) and the errors concentrated on consonant contrasts, such as *door*–*four*, that the midsagittal image does not capture. On one GPU the model needs 5.9 ms per window and the complete chain runs at a real-time factor of 0.52, with an algorithmic latency of about 230 ms. Repeating the objective evaluation with a second vocoder (HiFi-GAN instead of WaveGlow) lowers the mel-cepstral distortion between vocoded reference and reconstruction from 4.46 to 3.83 dB but leaves the ranking of utterances (ρ = 0.94) and the size of the mapping error unchanged. Open-vocabulary intelligibility was not tested.
 
 ---
 
 ## Audio examples
 
-<p><span style="display:inline-block;padding:0.15em 0.55em;background:#fff5eb;color:#cc5e00;border:1px solid #fb8500;border-radius:4px;font-weight:700">PREDICTED &mdash; synthesized from ultrasound</span> &nbsp; <span style="display:inline-block;padding:0.15em 0.55em;background:#ecfaf6;color:#1f7a6a;border:1px solid #2a9d8f;border-radius:4px;font-weight:700">ORIGINAL &mdash; natural recording</span></p>
+<p><span style="display:inline-block;padding:0.15em 0.55em;background:#fff5eb;color:#cc5e00;border:1px solid #fb8500;border-radius:4px;font-weight:700">PREDICTED &mdash; synthesized from ultrasound</span> &nbsp; <span style="display:inline-block;padding:0.15em 0.55em;background:#ecfaf6;color:#1f7a6a;border:1px solid #2a9d8f;border-radius:4px;font-weight:700">REFERENCE &mdash; natural mel-spectrogram, same vocoder</span></p>
 
 **Click any spectrogram** to open the corresponding audio file on GitHub,
 where the browser renders an inline audio player.
+
+Each pair was rendered by the same WaveGlow model: the reconstruction from the mel-spectrogram predicted from ultrasound, the reference from the mel-spectrogram of the natural recording (matched-vocoder protocol). These are the stimuli of the listening test.
 
 <a id="bring"></a>
 ### *bring*
@@ -63,7 +65,7 @@ where the browser renders an inline audio player.
 #### sub-06 / ses-01
 
 <table>
-<tr><th style="background:#fff5eb;color:#cc5e00;border-top:3px solid #fb8500">PREDICTED &mdash; synthesized from ultrasound (click to play)</th><th style="background:#ecfaf6;color:#1f7a6a;border-top:3px solid #2a9d8f">ORIGINAL &mdash; natural recording (click to play)</th></tr>
+<tr><th style="background:#fff5eb;color:#cc5e00;border-top:3px solid #fb8500">PREDICTED &mdash; synthesized from ultrasound (click to play)</th><th style="background:#ecfaf6;color:#1f7a6a;border-top:3px solid #2a9d8f">REFERENCE &mdash; natural mel-spectrogram, same vocoder (click to play)</th></tr>
 <tr><td style="background:#fff5eb;border:2px solid #fb8500"><a href="examples/top12_sub-06_ses-01_bring_predicted.wav"><img src="examples/top12_sub-06_ses-01_bring_predicted_mel.png" alt="Predicted mel: bring sub-06 ses-01" width="100%"></a></td><td style="background:#ecfaf6;border:2px solid #2a9d8f"><a href="examples/top12_sub-06_ses-01_bring_original.wav"><img src="examples/top12_sub-06_ses-01_bring_original_mel.png" alt="Original mel: bring sub-06 ses-01" width="100%"></a></td></tr>
 </table>
 
@@ -73,7 +75,7 @@ where the browser renders an inline audio player.
 #### sub-02 / ses-01
 
 <table>
-<tr><th style="background:#fff5eb;color:#cc5e00;border-top:3px solid #fb8500">PREDICTED &mdash; synthesized from ultrasound (click to play)</th><th style="background:#ecfaf6;color:#1f7a6a;border-top:3px solid #2a9d8f">ORIGINAL &mdash; natural recording (click to play)</th></tr>
+<tr><th style="background:#fff5eb;color:#cc5e00;border-top:3px solid #fb8500">PREDICTED &mdash; synthesized from ultrasound (click to play)</th><th style="background:#ecfaf6;color:#1f7a6a;border-top:3px solid #2a9d8f">REFERENCE &mdash; natural mel-spectrogram, same vocoder (click to play)</th></tr>
 <tr><td style="background:#fff5eb;border:2px solid #fb8500"><a href="examples/top07_sub-02_ses-01_dance_predicted.wav"><img src="examples/top07_sub-02_ses-01_dance_predicted_mel.png" alt="Predicted mel: dance sub-02 ses-01" width="100%"></a></td><td style="background:#ecfaf6;border:2px solid #2a9d8f"><a href="examples/top07_sub-02_ses-01_dance_original.wav"><img src="examples/top07_sub-02_ses-01_dance_original_mel.png" alt="Original mel: dance sub-02 ses-01" width="100%"></a></td></tr>
 </table>
 
@@ -83,7 +85,7 @@ where the browser renders an inline audio player.
 #### sub-03 / ses-01
 
 <table>
-<tr><th style="background:#fff5eb;color:#cc5e00;border-top:3px solid #fb8500">PREDICTED &mdash; synthesized from ultrasound (click to play)</th><th style="background:#ecfaf6;color:#1f7a6a;border-top:3px solid #2a9d8f">ORIGINAL &mdash; natural recording (click to play)</th></tr>
+<tr><th style="background:#fff5eb;color:#cc5e00;border-top:3px solid #fb8500">PREDICTED &mdash; synthesized from ultrasound (click to play)</th><th style="background:#ecfaf6;color:#1f7a6a;border-top:3px solid #2a9d8f">REFERENCE &mdash; natural mel-spectrogram, same vocoder (click to play)</th></tr>
 <tr><td style="background:#fff5eb;border:2px solid #fb8500"><a href="examples/top14_sub-03_ses-01_four_predicted.wav"><img src="examples/top14_sub-03_ses-01_four_predicted_mel.png" alt="Predicted mel: four sub-03 ses-01" width="100%"></a></td><td style="background:#ecfaf6;border:2px solid #2a9d8f"><a href="examples/top14_sub-03_ses-01_four_original.wav"><img src="examples/top14_sub-03_ses-01_four_original_mel.png" alt="Original mel: four sub-03 ses-01" width="100%"></a></td></tr>
 </table>
 
@@ -93,7 +95,7 @@ where the browser renders an inline audio player.
 #### sub-06 / ses-02
 
 <table>
-<tr><th style="background:#fff5eb;color:#cc5e00;border-top:3px solid #fb8500">PREDICTED &mdash; synthesized from ultrasound (click to play)</th><th style="background:#ecfaf6;color:#1f7a6a;border-top:3px solid #2a9d8f">ORIGINAL &mdash; natural recording (click to play)</th></tr>
+<tr><th style="background:#fff5eb;color:#cc5e00;border-top:3px solid #fb8500">PREDICTED &mdash; synthesized from ultrasound (click to play)</th><th style="background:#ecfaf6;color:#1f7a6a;border-top:3px solid #2a9d8f">REFERENCE &mdash; natural mel-spectrogram, same vocoder (click to play)</th></tr>
 <tr><td style="background:#fff5eb;border:2px solid #fb8500"><a href="examples/top04_sub-06_ses-02_laugh_predicted.wav"><img src="examples/top04_sub-06_ses-02_laugh_predicted_mel.png" alt="Predicted mel: laugh sub-06 ses-02" width="100%"></a></td><td style="background:#ecfaf6;border:2px solid #2a9d8f"><a href="examples/top04_sub-06_ses-02_laugh_original.wav"><img src="examples/top04_sub-06_ses-02_laugh_original_mel.png" alt="Original mel: laugh sub-06 ses-02" width="100%"></a></td></tr>
 </table>
 
@@ -103,7 +105,7 @@ where the browser renders an inline audio player.
 #### sub-03 / ses-01
 
 <table>
-<tr><th style="background:#fff5eb;color:#cc5e00;border-top:3px solid #fb8500">PREDICTED &mdash; synthesized from ultrasound (click to play)</th><th style="background:#ecfaf6;color:#1f7a6a;border-top:3px solid #2a9d8f">ORIGINAL &mdash; natural recording (click to play)</th></tr>
+<tr><th style="background:#fff5eb;color:#cc5e00;border-top:3px solid #fb8500">PREDICTED &mdash; synthesized from ultrasound (click to play)</th><th style="background:#ecfaf6;color:#1f7a6a;border-top:3px solid #2a9d8f">REFERENCE &mdash; natural mel-spectrogram, same vocoder (click to play)</th></tr>
 <tr><td style="background:#fff5eb;border:2px solid #fb8500"><a href="examples/top09_sub-03_ses-01_rain_predicted.wav"><img src="examples/top09_sub-03_ses-01_rain_predicted_mel.png" alt="Predicted mel: rain sub-03 ses-01" width="100%"></a></td><td style="background:#ecfaf6;border:2px solid #2a9d8f"><a href="examples/top09_sub-03_ses-01_rain_original.wav"><img src="examples/top09_sub-03_ses-01_rain_original_mel.png" alt="Original mel: rain sub-03 ses-01" width="100%"></a></td></tr>
 </table>
 
@@ -113,21 +115,21 @@ where the browser renders an inline audio player.
 #### sub-03 / ses-01
 
 <table>
-<tr><th style="background:#fff5eb;color:#cc5e00;border-top:3px solid #fb8500">PREDICTED &mdash; synthesized from ultrasound (click to play)</th><th style="background:#ecfaf6;color:#1f7a6a;border-top:3px solid #2a9d8f">ORIGINAL &mdash; natural recording (click to play)</th></tr>
+<tr><th style="background:#fff5eb;color:#cc5e00;border-top:3px solid #fb8500">PREDICTED &mdash; synthesized from ultrasound (click to play)</th><th style="background:#ecfaf6;color:#1f7a6a;border-top:3px solid #2a9d8f">REFERENCE &mdash; natural mel-spectrogram, same vocoder (click to play)</th></tr>
 <tr><td style="background:#fff5eb;border:2px solid #fb8500"><a href="examples/top01_sub-03_ses-01_sad_predicted.wav"><img src="examples/top01_sub-03_ses-01_sad_predicted_mel.png" alt="Predicted mel: sad sub-03 ses-01" width="100%"></a></td><td style="background:#ecfaf6;border:2px solid #2a9d8f"><a href="examples/top01_sub-03_ses-01_sad_original.wav"><img src="examples/top01_sub-03_ses-01_sad_original_mel.png" alt="Original mel: sad sub-03 ses-01" width="100%"></a></td></tr>
 </table>
 
 #### sub-06 / ses-02
 
 <table>
-<tr><th style="background:#fff5eb;color:#cc5e00;border-top:3px solid #fb8500">PREDICTED &mdash; synthesized from ultrasound (click to play)</th><th style="background:#ecfaf6;color:#1f7a6a;border-top:3px solid #2a9d8f">ORIGINAL &mdash; natural recording (click to play)</th></tr>
+<tr><th style="background:#fff5eb;color:#cc5e00;border-top:3px solid #fb8500">PREDICTED &mdash; synthesized from ultrasound (click to play)</th><th style="background:#ecfaf6;color:#1f7a6a;border-top:3px solid #2a9d8f">REFERENCE &mdash; natural mel-spectrogram, same vocoder (click to play)</th></tr>
 <tr><td style="background:#fff5eb;border:2px solid #fb8500"><a href="examples/top02_sub-06_ses-02_sad_predicted.wav"><img src="examples/top02_sub-06_ses-02_sad_predicted_mel.png" alt="Predicted mel: sad sub-06 ses-02" width="100%"></a></td><td style="background:#ecfaf6;border:2px solid #2a9d8f"><a href="examples/top02_sub-06_ses-02_sad_original.wav"><img src="examples/top02_sub-06_ses-02_sad_original_mel.png" alt="Original mel: sad sub-06 ses-02" width="100%"></a></td></tr>
 </table>
 
 #### sub-06 / ses-01
 
 <table>
-<tr><th style="background:#fff5eb;color:#cc5e00;border-top:3px solid #fb8500">PREDICTED &mdash; synthesized from ultrasound (click to play)</th><th style="background:#ecfaf6;color:#1f7a6a;border-top:3px solid #2a9d8f">ORIGINAL &mdash; natural recording (click to play)</th></tr>
+<tr><th style="background:#fff5eb;color:#cc5e00;border-top:3px solid #fb8500">PREDICTED &mdash; synthesized from ultrasound (click to play)</th><th style="background:#ecfaf6;color:#1f7a6a;border-top:3px solid #2a9d8f">REFERENCE &mdash; natural mel-spectrogram, same vocoder (click to play)</th></tr>
 <tr><td style="background:#fff5eb;border:2px solid #fb8500"><a href="examples/top03_sub-06_ses-01_sad_predicted.wav"><img src="examples/top03_sub-06_ses-01_sad_predicted_mel.png" alt="Predicted mel: sad sub-06 ses-01" width="100%"></a></td><td style="background:#ecfaf6;border:2px solid #2a9d8f"><a href="examples/top03_sub-06_ses-01_sad_original.wav"><img src="examples/top03_sub-06_ses-01_sad_original_mel.png" alt="Original mel: sad sub-06 ses-01" width="100%"></a></td></tr>
 </table>
 
@@ -137,7 +139,7 @@ where the browser renders an inline audio player.
 #### sub-02 / ses-01
 
 <table>
-<tr><th style="background:#fff5eb;color:#cc5e00;border-top:3px solid #fb8500">PREDICTED &mdash; synthesized from ultrasound (click to play)</th><th style="background:#ecfaf6;color:#1f7a6a;border-top:3px solid #2a9d8f">ORIGINAL &mdash; natural recording (click to play)</th></tr>
+<tr><th style="background:#fff5eb;color:#cc5e00;border-top:3px solid #fb8500">PREDICTED &mdash; synthesized from ultrasound (click to play)</th><th style="background:#ecfaf6;color:#1f7a6a;border-top:3px solid #2a9d8f">REFERENCE &mdash; natural mel-spectrogram, same vocoder (click to play)</th></tr>
 <tr><td style="background:#fff5eb;border:2px solid #fb8500"><a href="examples/top05_sub-02_ses-01_sky_predicted.wav"><img src="examples/top05_sub-02_ses-01_sky_predicted_mel.png" alt="Predicted mel: sky sub-02 ses-01" width="100%"></a></td><td style="background:#ecfaf6;border:2px solid #2a9d8f"><a href="examples/top05_sub-02_ses-01_sky_original.wav"><img src="examples/top05_sub-02_ses-01_sky_original_mel.png" alt="Original mel: sky sub-02 ses-01" width="100%"></a></td></tr>
 </table>
 
@@ -150,14 +152,12 @@ A plain-text index of the same audio examples is also available in
 
 ## Matched-vocoder evaluation protocol
 
-A central methodological contribution of this work is the **matched-vocoder
-evaluation protocol**: in the listening test, both the predicted and the
+The evaluation follows a **matched-vocoder protocol**: in the listening test, both the predicted and the
 natural mel-spectrograms are inverted by the **same** pre-trained WaveGlow
 vocoder. This ensures that any artefact introduced by the waveform generator
 is shared across the two conditions and that any difference in listener
 recognition reflects only the quality of the UTI-to-mel-spectrogram
-prediction. We propose this design as a default for comparing future
-UTI-based AAM systems on heterogeneous datasets.
+prediction. In the article the same protocol is applied with a second fixed vocoder (HiFi-GAN) as an objective robustness check.
 
 ---
 
@@ -192,7 +192,7 @@ the root) or use the placeholder BibTeX entry below:
 ```bibtex
 @unpublished{arthur2026directaam,
  author = {Arthur, Frigyes Viktor and Sztah{\'{o}}, D{\'{a}}vid},
- title = {Direct Articulatory-to-Acoustic Mapping from Ultrasound Tongue Imaging},
+ title = {From ultrasound tongue image sequences to intelligible speech reconstruction in a closed-set evaluation},
  year = {2026},
  note = {Manuscript under peer review.}
 }
