@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-title: "From ultrasound tongue image sequences to intelligible speech reconstruction in a closed-set evaluation — Supplementary Material"
+title: "Intelligible speech synthesis from ultrasound tongue image sequences — Supplementary Material"
 message: "If you use this material, please cite it as below."
 type: dataset
 authors:
@@ -14,7 +14,7 @@ license: CC-BY-4.0
 repository-code: "https://github.com/victorarthur/direct-aam-uti"
 preferred-citation:
   type: unpublished
-  title: "From ultrasound tongue image sequences to intelligible speech reconstruction in a closed-set evaluation"
+  title: "Intelligible speech synthesis from ultrasound tongue image sequences"
   authors:
     - family-names: Arthur
       given-names: Frigyes Viktor

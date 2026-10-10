@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>From ultrasound tongue image sequences to intelligible speech reconstruction in a closed-set evaluation &mdash; supplementary material</title>
+  <title>Intelligible speech synthesis from ultrasound tongue image sequences &mdash; supplementary material</title>
   <link rel="canonical" href="https://victorarthur.github.io/direct-aam-uti/">
   <style>
     :root {
@@ -282,7 +282,7 @@
 
 <body>
   <header>
-    <h1>From ultrasound tongue image sequences to intelligible speech reconstruction in a closed-set evaluation</h1>
+    <h1>Intelligible speech synthesis from ultrasound tongue image sequences</h1>
     <p class="subtitle">Supplementary material &mdash; Frigyes Viktor Arthur and D&aacute;vid Sztah&oacute;</p>
     <p class="tagline">Manuscript under peer review.</p>
   </header>
@@ -318,8 +318,7 @@
     </figure>
 
     <h2>Abstract</h2>
-    <p>Articulatory-to-acoustic mapping (AAM)&mdash;reconstructing speech from articulator measurements&mdash;is a core building block for silent speech interfaces. Most ultrasound tongue imaging (UTI)-based AAM systems predict classical vocoder parameters (MGC, LSP, F0) that require brittle voicing/pitch decisions and bypass modern neural waveform generators. We propose a temporal convolutional network that maps 500-ms windows of UTI frames directly to 80-channel mel-spectrograms; predicted and natural-reference spectrograms are inverted by the same fixed pre-trained neural vocoder, so artefacts are shared across conditions and the listening test isolates the mapping stage. The architecture was selected in a 313-trial search, and a controlled retraining showed that the frame sequence matters: a single repeated frame in the same network raised the mapping-stage mel-cepstral distortion (MCD) from 4.03 to 5.16 dB in all twelve speaker&ndash;session models. Training and evaluation use a four-speaker, three-session corpus (1,200 isolated English words; Hungarian L1 / English L2). Under the matched-vocoder protocol the system reaches a mean MCD of 4.46 dB, with no significant inter-speaker differences (<i>p</i> = 0.30). A blinded eight-alternative forced-choice listening test with 31 listeners (1,240 trials) reaches 84.0% word recognition accuracy for synthesised speech against 99.7% for the vocoded natural reference (Cohen&rsquo;s <i>h</i> = 0.71), with substantial inter-rater agreement (Fleiss&rsquo; &kappa; = 0.75). Errors are phonetically structured and concentrate on minimal pairs such as <i>door</i>&ndash;<i>four</i>, consistent with the limited visibility of the tongue tip and lips in midsagittal UTI. The complete chain runs faster than real time (real-time factor 0.52 on one GPU, algorithmic latency about 230 ms), and repeating the objective evaluation with a second vocoder (HiFi-GAN) lowers the distortion to 3.83 dB without changing the ranking of utterances (&rho; = 0.94).
-    </p>
+    <p>Articulatory-to-acoustic mapping (AAM) reconstructs speech from measurements of the vocal tract, and it is used in silent speech interfaces. We synthesize intelligible speech from ultrasound tongue imaging (UTI), a non-invasive sensor that records the tongue, the primary articulator, at high frame rates. We design a temporal convolutional network that maps windows of UTI frames directly to mel-spectrograms. The predicted spectrogram is inverted by a fixed pre-trained neural vocoder, as is the natural reference, so the listening test measures the AAM. The architecture was selected in a systematic model search. On a four-speaker, three-session corpus (1,200 isolated English words; Hungarian L1 / English L2) the system reaches a mean mel-cepstral distortion (MCD) of 4.46 dB, with no significant inter-speaker differences (<i>p</i> = 0.30). A blinded closed-set listening test gives 84.0% word recognition for the synthesized speech and 99.7% for the vocoded natural reference. The errors are phonetically structured: they concentrate on minimal pairs, consistent with the limited visibility of the lips in midsagittal UTI. The complete chain runs faster than real time (real-time factor 0.52 on one GPU, algorithmic latency about 230 ms); repeating the objective evaluation with a second waveform generator (HiFi-GAN) leaves the ranking of utterances unchanged (&rho; = 0.94) and lowers the distortion to 3.83 dB.</p>
 
     <h2 id="examples">Few audio examples</h2>
 
@@ -516,7 +515,7 @@
 
     <pre class="bibtex">@unpublished{arthur2026directaam,
  author = {Arthur, Frigyes Viktor and Sztah{\&#39;{o}}, D{\&#39;{a}}vid},
- title = {From ultrasound tongue image sequences to intelligible speech reconstruction in a closed-set evaluation},
+ title = {Intelligible speech synthesis from ultrasound tongue image sequences},
  year = {2026},
  note = {Manuscript under peer review.}
 }</pre>

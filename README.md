@@ -1,8 +1,8 @@
-# From ultrasound tongue image sequences to intelligible speech reconstruction in a closed-set evaluation
+# Intelligible speech synthesis from ultrasound tongue image sequences
 
 Supplementary material for the manuscript
 
-> **From ultrasound tongue image sequences to intelligible speech reconstruction in a closed-set evaluation**
+> **Intelligible speech synthesis from ultrasound tongue image sequences**
 > Frigyes Viktor Arthur and Dávid Sztahó
 > Department of Telecommunications and Artificial Intelligence,
 > Budapest University of Technology and Economics, Budapest, Hungary
@@ -192,7 +192,7 @@ the root) or use the placeholder BibTeX entry below:
 ```bibtex
 @unpublished{arthur2026directaam,
  author = {Arthur, Frigyes Viktor and Sztah{\'{o}}, D{\'{a}}vid},
- title = {From ultrasound tongue image sequences to intelligible speech reconstruction in a closed-set evaluation},
+ title = {Intelligible speech synthesis from ultrasound tongue image sequences},
  year = {2026},
  note = {Manuscript under peer review.}
 }
